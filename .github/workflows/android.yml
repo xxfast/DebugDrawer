@@ -25,3 +25,10 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+      
+    - name: Setup variables for versions
+      run: |
+        VERSION_NAME="`pcregrep -o "(?<=VERSION_NAME=).*(?=)" gradle.properties`" 
+        IS_SNAPSHOT=$( [[ "$VERSION_NAME" == *"SNAPSHOT"* ]] && echo "true" || echo "false" )
+        echo "{VERSION_NAME}=$VERSION_NAME" >> $GITHUB_ENV
+        echo "{IS_SNAPSHOT}=$IS_SNAPSHOT" >> $GITHUB_ENV
